@@ -1,3 +1,5 @@
 rootProject.name = 'XGBannerDemo'
+include ':XGBanner'
+project(':XGBanner').projectDir = new File(rootProject.projectDir, '../node_modules/XGBanner/android')
 
 include ':app', ':reactbanner'

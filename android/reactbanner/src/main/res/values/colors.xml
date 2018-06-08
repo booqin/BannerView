@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <color name="white">#FFFFFF</color>
+    <color name="pl_color_f7f7f7">#F7F7F7</color>
+    <color name="pl_color_333333">#333333</color>
+    <color name="pl_color_e5e5e5">#e5e5e5</color>
+    <color name="pl_color_dddddd">#dddddd</color>
+    <color name="pl_color_62bec5">#62BEC5</color>
+    <color name="pl_color_888888">#888888</color>
+    <color name="pl_theme_color">@color/pl_color_30c17c</color>
+    <color name="pl_color_ff4800">#FF4800</color>
+    <color name="pl_color_cccccc">#cccccc</color>
+    <color name="pl_color_30c17c">#30c17c</color>
+    <color name="pl_title_selected_no">#99ffffff</color>
+</resources>

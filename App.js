@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+import LCBannerView from "./source/LCBannerView";
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -21,18 +22,27 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
-  render() {
+
+    constructor(props){
+        super(props);
+        this.state ={
+          isShow : false,
+        }
+    }
+
+    render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+          <Text onPress={()=>{
+            this.setState({
+                isShow:true
+            })
+          }}>
+            click
+          </Text>
+          {
+            this.state.isShow?<LCBannerView style={{width:200, height:200}}/>:null
+          }
       </View>
     );
   }
@@ -43,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ff1111',
   },
   welcome: {
     fontSize: 20,
