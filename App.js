@@ -11,7 +11,9 @@ import {
   Text,
   View
 } from 'react-native';
-import LCBannerView from "./source/LCBannerView";
+import AndroidViewPager from "./source/AndroidBanner";
+
+
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -33,16 +35,14 @@ export default class App extends Component<Props> {
     render() {
     return (
       <View style={styles.container}>
-          <Text onPress={()=>{
-            this.setState({
-                isShow:true
-            })
-          }}>
-            click
-          </Text>
-          {
-            this.state.isShow?<LCBannerView style={{width:200, height:200}}/>:null
-          }
+
+          <AndroidViewPager style={{height:300}}
+                     autoPlayEnable={true}
+                     autoPlayInterval={2000}
+                     clickCallback={(position)=>{
+                         console.warn(position)
+                     }}
+                     imageUrls={['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449518225&di=b3a4246dd186af19b17f63bf5c86e486&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F018335598924a2a801215603db0836.png%402o.png']}/>
       </View>
     );
   }
