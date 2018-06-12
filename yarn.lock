@@ -434,10 +434,6 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-XGBanner@0.0.1:
-  version "0.0.1"
-  resolved "http://172.16.2.71:4873/XGBanner/-/XGBanner-0.0.1.tgz#28eeac9274159f0cc126ec67416e20bd156d6f14"
-
 abab@^1.0.4:
   version "1.0.4"
   resolved "http://172.16.2.71:4873/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -5237,6 +5233,10 @@ xcode@^0.9.1:
     pegjs "^0.10.0"
     simple-plist "^0.2.1"
     uuid "3.0.1"
+
+xgrn-baseview@0.2.5:
+  version "0.2.5"
+  resolved "http://172.16.2.71:4873/xgrn-baseview/-/xgrn-baseview-0.2.5.tgz#383b663395613bad51800593d21fa329eced9608"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"

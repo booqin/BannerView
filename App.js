@@ -4,65 +4,94 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
+    Platform,
+    StyleSheet,
+    Text,
+    View
 } from 'react-native';
-import AndroidViewPager from "./source/AndroidBanner";
+import {BannerView} from "xgrn-baseview";
 
 
 
 const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
+    ios: 'Press Cmd+R to reload,\n' +
     'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
+    android: 'Double tap R on your keyboard to reload,\n' +
     'Shake or press menu button for dev menu',
 });
+
+const urls = ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449518225&di=b3a4246dd186af19b17f63bf5c86e486&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F018335598924a2a801215603db0836.png%402o.png',
+    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449518225&di=b3a4246dd186af19b17f63bf5c86e486&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F018335598924a2a801215603db0836.png%402o.png'];
 
 type Props = {};
 export default class App extends Component<Props> {
 
-    constructor(props){
+
+    constructor(props) {
         super(props);
-        this.state ={
-          isShow : false,
+        this.state = {
+            isShow: false,
         }
     }
 
     render() {
-    return (
-      <View style={styles.container}>
+        return (
+            <View style={styles.container}>
+                {this._renderAndroid()}
+                <Text style={{height:40}} onPress={()=>{
+                    this.banner.startLoop()
+                }}>开始</Text>
+                <Text style={{height:40}} onPress={()=>{
+                    this.banner.stopLoop()
+                }}>暂停</Text>
+            </View>
+        );
+    }
 
-          <AndroidViewPager style={{height:300}}
-                     autoPlayEnable={true}
-                     autoPlayInterval={2000}
-                     clickCallback={(position)=>{
-                         console.warn(position)
-                     }}
-                     imageUrls={['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449518225&di=b3a4246dd186af19b17f63bf5c86e486&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F018335598924a2a801215603db0836.png%402o.png']}/>
-      </View>
-    );
-  }
+    _renderAndroid = ()=>{
+
+        // if (Platform.OS === 'ios') {
+        //     return UIManager.RCTVirtualText
+        //         ? this._renderIOS()
+        //         : this._renderIOSLegacy();
+        // } else if (Platform.OS === 'android') {
+        //     return this._renderAndroid();
+        // }
+
+        return (
+            <BannerView style={{height: 300}}
+                       autoPlayEnable={true}
+                       autoPlayInterval={2000}
+                       clickCallback={(position) => {
+                           console.warn(position)
+                       }}
+                       imageUrls={urls}
+                           ref={(refs)=>{
+                               this.banner = refs;
+                           }}
+            />
+        )
+    };
+
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ff1111',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ff1111',
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+    instructions: {
+        textAlign: 'center',
+        color: '#333333',
+        marginBottom: 5,
+    },
 });

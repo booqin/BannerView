@@ -9,8 +9,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.facebook.react.ReactActivity;
-import com.xinguang.reactbanner.ImageCycleView;
-import com.xinguang.reactbanner.ImageCycleViewUtils;
+//import com.xinguang.reactbanner.ImageCycleView;
+//import com.xinguang.reactbanner.ImageCycleViewUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

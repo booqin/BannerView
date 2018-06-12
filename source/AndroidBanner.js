@@ -51,7 +51,21 @@ export default class AndroidBanner extends Component {
         this.timer && clearInterval();
     }
 
+    /**
+     * 开始循环
+     */
+    startLoop = ()=>{
+        this.timer && clearInterval(this.timer);
+        this._initTimeOut();
 
+    };
+
+    /**
+     * 停止循环
+     */
+    stopLoop = ()=>{
+        this.timer && clearInterval(this.timer);
+    };
 
 
     render() {
