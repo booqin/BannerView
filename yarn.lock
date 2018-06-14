@@ -5234,9 +5234,9 @@ xcode@^0.9.1:
     simple-plist "^0.2.1"
     uuid "3.0.1"
 
-xgrn-baseview@0.2.6:
-  version "0.2.6"
-  resolved "http://172.16.2.71:4873/xgrn-baseview/-/xgrn-baseview-0.2.6.tgz#eba869eeffea0c7a3cb443d235da0628e28e1605"
+xgrn-baseview@0.2.7:
+  version "0.2.7"
+  resolved "http://172.16.2.71:4873/xgrn-baseview/-/xgrn-baseview-0.2.7.tgz#fcddca332fb230d821e535f880233583a4be762e"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
