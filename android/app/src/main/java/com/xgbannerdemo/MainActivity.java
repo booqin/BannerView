@@ -1,20 +1,8 @@
 package com.xgbannerdemo;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 import com.facebook.react.ReactActivity;
 //import com.xinguang.reactbanner.ImageCycleView;
-//import com.xinguang.reactbanner.ImageCycleViewUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+//import com.xinguang.reactbanner.view.ImageCycleViewUtils;
 
 
 public class MainActivity extends ReactActivity {

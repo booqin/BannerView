@@ -1,4 +1,4 @@
-package com.xinguang.reactbanner;
+package com.xinguang.reactbanner.view;
 
 import android.view.View;
 import android.widget.ImageView;

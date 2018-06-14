@@ -1,9 +1,8 @@
-package com.xinguang.reactbanner;
+package com.xinguang.reactbanner.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
@@ -12,11 +11,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-
-import java.util.ArrayList;
+import com.xinguang.reactbanner.R;
+import com.xinguang.reactbanner.adapter.ImageCycleLoop2Adapter;
 
 /**
  * 广告图片自动轮播控件</br>
@@ -31,14 +29,14 @@ import java.util.ArrayList;
  * </pre>
  *
  * @author minking
+ * @modify BoQin adapter for react-native
  */
 public class ImageCycleView extends LinearLayout {
     private ImageCycleViewUtils imageCycleViewListener;
     /**
-     * 是否显示指示器
+     * 是否大于1个页面
      */
     private boolean isShow;
-    private boolean isShow2;
     /**
      * 上下文
      */
@@ -52,7 +50,7 @@ public class ImageCycleView extends LinearLayout {
     /**
      * 滚动图片视图适配器
      */
-    private ImageCycleAdapter mAdvAdapter;
+    private ImageCycleLoop2Adapter mAdvAdapter;
 
     /**
      * 图片轮播指示器控件
@@ -75,9 +73,9 @@ public class ImageCycleView extends LinearLayout {
     private int mImageIndex = 0;
 
     /**
-     * 设置是否手动无限循环
+     * 设置无限循环
      */
-    private boolean isManualLoop = false;
+    private boolean isManualLoop = true;
 
     private int size;
     /**
@@ -102,7 +100,7 @@ public class ImageCycleView extends LinearLayout {
         mContext = context;
         LayoutInflater.from(context).inflate(R.layout.ad_cycle_views, this);
         mAdvPager = (ViewPager) findViewById(R.id.adv_pager);
-        mAdvPager.setOnPageChangeListener(new GuidePageChangeListener());
+        mAdvPager.addOnPageChangeListener(new GuidePageChangeListener());
         mAdvPager.setOnTouchListener(new OnTouchListener() {
 
             @SuppressLint("ClickableViewAccessibility")
@@ -124,8 +122,6 @@ public class ImageCycleView extends LinearLayout {
         // 滚动图片右下指示器视图
         mGroup = (ViewGroup) findViewById(R.id.viewGroup);
 
-        ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
-//        mTouchSlop = viewConfiguration.getScaledPagingTouchSlop();
     }
 
     /**
@@ -167,9 +163,9 @@ public class ImageCycleView extends LinearLayout {
             // 图片指示器
             for (int i = 0; i < size; i++) {
                 mLineView = LayoutInflater.from(mContext).inflate(R.layout.view_line, null);
-                if (!isShow2) {
-                    mLineView.setVisibility(GONE);
-                }
+//                if (!isShow2) {
+//                    mLineView.setVisibility(GONE);
+//                }
                 mLineView.setLayoutParams(layout);
                 mLineViews[i] = mLineView;
                 if (i == 0) {
@@ -180,9 +176,12 @@ public class ImageCycleView extends LinearLayout {
                 mGroup.addView(mLineViews[i]);
             }
         }
-        mAdvAdapter = new ImageCycleAdapter(mContext, imageCycleViewListener);
+        mAdvAdapter = new ImageCycleLoop2Adapter(mContext, imageCycleViewListener);
         mAdvPager.setAdapter(mAdvAdapter);
-        mAdvPager.setCurrentItem(size * 100000);// 设置手扒可轮回时打开
+        mAdvPager.setOffscreenPageLimit(size);
+        //当前展示的页面序号，大于1的时候需要由于实现了循环所以默认值为1
+        mImageIndex = size>1?1:0;
+        mAdvPager.setCurrentItem(mImageIndex);// 设置手扒可轮回时打开
 
         startImageTimerTask();   //如果是第一个   使用start方法开始滚动
     }
@@ -231,6 +230,22 @@ public class ImageCycleView extends LinearLayout {
 
     private Handler mHandler = new Handler();
 
+//    public void addViewToAdapter(View child, int index) {
+//        getAdapter().addView(child, index);
+//    }
+//
+//    public void removeViewFromAdapter(int index) {
+//        getAdapter().removeViewAt(index);
+//    }
+//
+//    public int getViewCountInAdapter() {
+//        return getAdapter().getCount();
+//    }
+//
+//    public View getViewFromAdapter(int index) {
+//        return getAdapter().getViewAt(index);
+//    }
+
     /**
      * 图片自动轮播Task
      */
@@ -238,13 +253,24 @@ public class ImageCycleView extends LinearLayout {
 
         @Override
         public void run() {
+            if(!isManualLoop){
+                return;
+            }
+
             if (mLineViews != null) {
+                //跳转到下一页面
                 mImageIndex++;
-                if (!isManualLoop) {
-                    // 下标等于图片列表长度说明已滚动到最后一张图片,重置下标
-                    if ((mImageIndex) == size) {
-                        mImageIndex = 0;
-                    }
+                // 保护
+                if ((mImageIndex) == size + 2) {
+                    //超过最大页循环
+                    mImageIndex = 1;
+                }
+                if(mImageIndex == 0){
+                    //设置到最后一页
+                    mAdvPager.setCurrentItem(size);
+                }else if(mImageIndex == size+1){
+                    //设置第一页
+                    mAdvPager.setCurrentItem(1);
                 }
                 mAdvPager.setCurrentItem(mImageIndex);
             }
@@ -270,96 +296,37 @@ public class ImageCycleView extends LinearLayout {
         @Override
         public void onPageSelected(int index) {
             if (!isShow) return;
+            //实现页面循环
+            if(index == 0){
+                mAdvPager.setCurrentItem(size, false);
+                mImageIndex = size;
+            }else if(index == size+1){
+                mAdvPager.setCurrentItem(1, false);
+                mImageIndex = 1;
+            }else {
+                mImageIndex = index;
+            }
+
             // 设置当前显示的图片下标
-            mImageIndex = index;
             int count = mLineViews.length;
-            imageCycleViewListener.setCurrId(index % count);
+            imageCycleViewListener.setCurrId(mImageIndex % count);
 
             for (int i = 0; i < count; i++) {
                 // 设置图片滚动指示器背景
                 // 图片指示器
-                if (index % count != i) {
-                    mLineViews[i % count].setBackgroundResource(R.color.pl_title_selected_no);
+                if ((mImageIndex-1) % count != i) {
+                    mLineViews[i].setBackgroundResource(R.color.pl_title_selected_no);
                 } else {
-                    mLineViews[i % count].setBackgroundResource(R.color.white);
+                    mLineViews[i].setBackgroundResource(R.color.white);
                 }
             }
         }
     }
 
-    private class ImageCycleAdapter extends PagerAdapter {
 
-        /**
-         * 图片视图缓存列表
-         */
-        private ArrayList<ImageView> mImageViewCacheList;
-
-        /**
-         * 广告图片点击监听器
-         */
-        private ImageCycleViewUtils mImageCycleViewListener;
-
-        private Context mContext;
-
-        public ImageCycleAdapter(Context context, ImageCycleViewUtils imageCycleViewListener) {
-            mContext = context;
-
-            mImageCycleViewListener = imageCycleViewListener;
-            mImageViewCacheList = new ArrayList<ImageView>();
-        }
-
-        @Override
-        public int getCount() {
-            return isManualLoop ? Integer.MAX_VALUE
-                    : mImageCycleViewListener.getSize();// 代表如果是循环播放的话数量就无法设定
-        }
-
-        private int getPosition(int position) {
-            return position % mImageCycleViewListener.getSize();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
-
-            ImageView imageView = null;
-            if (mImageViewCacheList.isEmpty()) {
-                imageView = new ImageView(mContext);
-                imageView.setLayoutParams(
-                        new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            } else {
-                imageView = mImageViewCacheList.remove(0);
-            }
-            // 设置图片点击监听
-            imageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mImageCycleViewListener.onImageClick(getPosition(position), v);
-                }
-            });
-
-            //imageView.setTag(1,imageUrl);
-            container.addView(imageView);
-            mImageCycleViewListener.displayImage(getPosition(position), imageView);
-            return imageView;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            ImageView view = (ImageView) object;
-            container.removeView(view);
-            mImageViewCacheList.add(view);
-        }
-    }
-
-    public void setShow2(boolean show2) {
-        isShow2 = show2;
-    }
+//    public void setShow2(boolean show2) {
+//        isShow2 = show2;
+//    }
     //==========================================
 //    //判定为拖动的最小移动像素数
 //    private int mTouchSlop;

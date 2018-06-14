@@ -3,12 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.xinguang.reactbanner.ImageCycleView
+    <com.xinguang.reactbanner.view.ImageCycleView
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="300dp">
 
-    </com.xinguang.reactbanner.ImageCycleView>
+    </com.xinguang.reactbanner.view.ImageCycleView>
 
 
 </LinearLayout>
