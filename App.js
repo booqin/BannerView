@@ -6,6 +6,7 @@
 
 import React, {Component} from 'react';
 import {
+    Image,
     Platform,
     StyleSheet,
     Text,
@@ -22,8 +23,10 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-const urls = ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449518225&di=b3a4246dd186af19b17f63bf5c86e486&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F018335598924a2a801215603db0836.png%402o.png',
-    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449518225&di=b3a4246dd186af19b17f63bf5c86e486&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F018335598924a2a801215603db0836.png%402o.png'];
+const urls = ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449518226&di=b0534ce7158ca8e51d3a199d934bdce1&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01e8a157f86d8ca84a0d304fcb9943.jpg%402o.jpg',
+    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449518225&di=b3a4246dd186af19b17f63bf5c86e486&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F018335598924a2a801215603db0836.png%402o.png',
+    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528449646201&di=f87bfff31d6c2500e7a312f465d8edfe&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2014%2F287%2F32%2F1E2205O0EVSB_1000x500.jpg',
+];
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -60,20 +63,43 @@ export default class App extends Component<Props> {
         //     return this._renderAndroid();
         // }
 
+        // return (
+        //     this.state.isShow?<LCBannerView style={{width:200, height:100}}
+        //
+        //     />:null
+        // )
+
+        // return (
+        //     <BannerView style={{height: 300}}
+        //                 autoPlayEnable={true}
+        //                 autoPlayInterval={2000}
+        //                 clickCallback={(position) => {
+        //                     console.warn(position)
+        //                 }}
+        //                 imageUrls={urls}
+        //                 ref={(refs)=>{
+        //                     this.banner = refs;
+        //                 }}
+        //     />
+        // )
+
         return (
-            <BannerView style={{height: 300}}
-                       autoPlayEnable={true}
-                       autoPlayInterval={2000}
-                       clickCallback={(position) => {
-                           console.warn(position)
-                       }}
-                       imageUrls={urls}
+            <BannerView
+                            style={{width:200, height:200}}
+                           autoPlayInterval={2000}
+                           clickCallback={(position) => {
+                               console.warn(position);
+                           }
+                           }
+                           imageUrls={urls}
                            ref={(refs)=>{
                                this.banner = refs;
                            }}
+
             />
         )
     };
+
 
 }
 
